@@ -4,36 +4,45 @@ WIKIDIR="/home/wiki/web"
 STATICDIR="/home/wiki/static_dump"
 LOG=~/sync.log
 
-echo `date` "original command: $SSH_ORIGINAL_COMMAND" >> $LOG
-echo `date` `/opt/local/bin/php $WIKIDIR/extensions/dumpHTML/dumpHTML.php -d $STATICDIR -k monobook --image-snapshot 2>&1` >> $LOG
+function log(){
+	echo `date` $@ >> $LOG
+}
+
+function log_echo(){
+	log $@
+	echo $@
+}
+
+log "original command: $SSH_ORIGINAL_COMMAND"
+log `/opt/local/bin/php $WIKIDIR/extensions/dumpHTML/dumpHTML.php -d $STATICDIR -k monobook --image-snapshot 2>&1`
 
 case "$SSH_ORIGINAL_COMMAND" in
 	*\&*)
-	echo "Rejected"
+	log_echo "Rejected"
 	;;
 
 	*\(*)
-	echo "Rejected"
+	log_echo "Rejected"
 	;;
 
 	*\{*)
-	echo "Rejected"
+	log_echo "Rejected"
 	;;
 
 	*\;*)
-	echo "Rejected"
+	log_echo "Rejected"
 	;;
 
 	*\<*)
-	echo "Rejected"
+	log_echo "Rejected"
 	;;
 
 	*\`*)
-	echo "Rejected"
+	log_echo "Rejected"
 	;;
 
 	*\|*)
-	echo "Rejected"
+	log_echo "Rejected"
 	;;
 
 	rsync\ --server\ --sender*)
@@ -41,6 +50,6 @@ case "$SSH_ORIGINAL_COMMAND" in
 	;;
 
 	*)
-	echo "Rejected"
+	log_echo "Rejected"
 	;;
 esac 

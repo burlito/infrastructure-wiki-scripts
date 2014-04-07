@@ -36,7 +36,7 @@ case "$SSH_ORIGINAL_COMMAND" in
 	echo "Rejected"
 	;;
 
-	rsync\ --server --sender*)
+	rsync\ --server\ --sender*)
 	$SSH_ORIGINAL_COMMAND
 	;;
 

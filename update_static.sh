@@ -14,6 +14,10 @@ function log_echo(){
 }
 
 log "original command: $SSH_ORIGINAL_COMMAND"
+if [ -d "$STATICDIR" ]; then
+	log `rm $STATICDIR -rf`
+fi
+
 log `/opt/local/bin/php $WIKIDIR/extensions/dumpHTML/dumpHTML.php -d $STATICDIR -k monobook --image-snapshot 2>&1`
 
 case "$SSH_ORIGINAL_COMMAND" in
